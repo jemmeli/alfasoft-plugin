@@ -26,6 +26,8 @@
                     <td><?php echo $person->name; ?></td>
                     <td><?php echo $person->email; ?></td>
                     <td>
+                        <a href="<?php echo admin_url('admin.php?page=show_person&id=' . $person->id); ?>">Show Details</a>
+                        |
                         <a href="<?php echo admin_url('admin.php?page=add_edit_person&id=' . $person->id); ?>">Edit</a>
 
                         |

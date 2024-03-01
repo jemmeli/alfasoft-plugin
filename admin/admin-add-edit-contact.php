@@ -9,11 +9,13 @@ $person_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
     <?php
     $contact_id = isset($_GET['contact_id']) ? intval($_GET['contact_id']) : 0;
+    //die($contact_id);
     $contact = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}contact WHERE id = $contact_id");
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Process form submission
         $person_id = sanitize_text_field($_POST['person_id']);
+        $contact_id = sanitize_text_field($_POST['contact_id']);
         $country_code = sanitize_text_field($_POST['country_code']);
         $number = sanitize_text_field($_POST['number']);
 
@@ -48,8 +50,13 @@ $person_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         <label for="number">Number:</label>
         <input type="text" name="number" value="<?php if( isset($contact) ) { echo esc_attr($contact->number); } ?>" required>
         <br>
-
+        <?php if( isset($_GET['id']) ) {?>
         <input type="hidden" id="person_id" name="person_id" value="<?php if( isset($_GET['id']) ) { echo $_GET['id']; } ?>" />
+        <?php } ?>
+
+        <?php if( isset($_GET['contact_id']) ) {?>
+        <input type="hidden" id="contact_id" name="contact_id" value="<?php if( isset($_GET['contact_id']) ) { echo $_GET['contact_id']; } ?>" />
+        <?php } ?>
 
         <input type="submit" class="button button-primary" value="<?php echo $contact_id ? 'Update' : 'Add'; ?> Contact">
     </form>

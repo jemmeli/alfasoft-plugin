@@ -187,3 +187,26 @@ function admin_delete_person_page() {
 
 // Hook for adding submenu
 add_action('admin_menu', 'delete_manager_contact_submenu');
+
+/*=========================
+===DELETE PERSON===========
+==========================*/
+function admin_show_person_submenu() {
+    add_submenu_page(
+        'contact_manager',
+        'SHOW Person',
+        'SHOW Person',
+        'manage_options',
+        'show_person',
+        'admin_show_person_page'
+    );
+}
+
+function admin_show_person_page() {
+    include(plugin_dir_path(__FILE__) . 'admin/admin-show-person.php');
+}
+
+// Hook for adding submenu
+add_action('admin_menu', 'admin_show_person_submenu');
+
+
