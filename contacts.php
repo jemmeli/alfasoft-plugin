@@ -27,10 +27,6 @@ function contacts_script_footer(){
 	wp_enqueue_script( 'bootstrapjs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' );
 	wp_enqueue_script( 'pooperjs', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js' );
 
-    //vue and axios
-	wp_enqueue_script('vue', 'https://cdn.jsdelivr.net/npm/vue/dist/vue.js', [], '2.7.14');
-    wp_enqueue_script('axios' , plugin_dir_url( __FILE__ ) . 'js/vendor/axios.js', 'vue', true );
-
     //main js file
     wp_enqueue_script('vueapp', plugin_dir_url( __FILE__ ) . 'js/main.js', 'vue' , true );
 
@@ -74,18 +70,18 @@ function contacts_plugin_activate(){
 	dbDelta( $sql );
 
     $contact = $wpdb->prefix . 'contact';
-	$charset_collate = $wpdb->get_charset_collate();
-	$sql = "CREATE TABLE $contact (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		person_id INT NOT NULL,
+    $charset_collate = $wpdb->get_charset_collate();
+    $sql = "CREATE TABLE $contact (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        person_id INT NOT NULL,
         country_code VARCHAR(10) NOT NULL,
         number VARCHAR(9) NOT NULL,
-		PRIMARY KEY (id),
-        UNIQUE KEY contact_unique (country_code, number),
-        FOREIGN KEY (person_id) REFERENCES " . $wpdb->prefix . "person(id) ON DELETE CASCADE
-	) $charset_collate;";
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta( $sql );
+        PRIMARY KEY (id),
+        UNIQUE KEY contact_unique (country_code, number)
+        /*FOREIGN KEY (person_id) REFERENCES wp_person(id) ON DELETE CASCADE*/
+    ) $charset_collate;";
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    dbDelta($sql);
 }
 register_activation_hook(__FILE__ , "contacts_plugin_activate");
 
@@ -110,3 +106,19 @@ function contacts_plugin_deactivate(){
     delete_option("my_plugin_db_version");
 }
 register_deactivation_hook(__FILE__ , "contacts_plugin_deactivate");
+
+
+/*======================
+===LISTS PERSONS PAGE===
+=======================*/
+// Add admin menu
+function contact_manager_plugin_menu() {
+    add_menu_page('Contact Manager', 'Contact Manager', 'manage_options', 'contact_manager', 'admin_list_person_page');
+}
+
+function admin_list_person_page() {
+    include(plugin_dir_path(__FILE__) . 'admin/admin-list-person.php');
+}
+
+// Hook for adding admin menus
+add_action('admin_menu', 'contact_manager_plugin_menu');
