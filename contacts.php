@@ -27,8 +27,13 @@ function contacts_script_footer(){
 	wp_enqueue_script( 'bootstrapjs', 'https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js' );
 	wp_enqueue_script( 'pooperjs', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js' );
 
+    //datatables
+    wp_enqueue_script('datatables', 'https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js', array('jquery'), '1.10.25', true);
+    wp_enqueue_style('datatables-style', 'https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css');
+
     //main js file
     wp_enqueue_script('main-js', plugin_dir_url( __FILE__ ) . 'js/main.js', array(), rand(1, 1000) , true );
+    
 
     //ajax
 	wp_register_script( 'ajaxHandle', plugin_dir_url( __FILE__ ) . 'js/myajax.js', array(), rand(1, 1000), true  );
@@ -230,5 +235,51 @@ function admin_delete_contact_page() {
 
 // Hook for adding submenu
 add_action('admin_menu', 'delete_contact_submenu');
+
+
+
+/*===========================
+===LISTS for PUBLIC===
+============================*/
+// Add public menu
+function public_contact_manager_plugin_menu() {
+    add_menu_page('Public Contact Manager', 'Public Contact Manager', 'read', 'public_contact_manager', 'public_list_person_page');
+}
+
+function public_list_person_page() {
+    include(plugin_dir_path(__FILE__) . 'public/public-list-person.php');
+}
+
+// Hook for adding public menus
+add_action('admin_menu', 'public_contact_manager_plugin_menu');
+
+/*================
+dataset
+===============*/
+add_action('wp_ajax_get_people_data', 'get_people_data');
+add_action('wp_ajax_nopriv_get_people_data', 'get_people_data');
+
+function get_people_data() {
+    global $wpdb;
+
+    // Query the database using $wpdb
+    $results = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}person WHERE deleted = 0");
+
+    $data = array();
+    foreach ($results as $row) {
+        $data[] = array(
+            'id' => $row->id,
+            'name' => $row->name,
+            'email' => $row->email,
+            'avatar_url' => $row->avatar_url,
+        );
+    }
+
+    echo json_encode(array('data' => $data));
+    wp_die();
+}
+
+
+
 
 

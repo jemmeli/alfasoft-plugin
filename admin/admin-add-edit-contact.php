@@ -48,7 +48,7 @@ $person_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
         <br>
 
         <label for="number">Number:</label>
-        <input type="text" name="number" value="<?php if( isset($contact) ) { echo esc_attr($contact->number); } ?>" required>
+        <input type="text" name="number" pattern="[A-Za-z0-9]{9}" value="<?php if( isset($contact) ) { echo esc_attr($contact->number); } ?>" required>
         <br>
         <?php if( isset($_GET['id']) ) {?>
         <input type="hidden" id="person_id" name="person_id" value="<?php if( isset($_GET['id']) ) { echo $_GET['id']; } ?>" />
