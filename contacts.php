@@ -15,11 +15,11 @@
 //styles
 function contacts_plugin_enqueue_styles() {
     //bootstrap
-    wp_enqueue_style( 'bootstrap-4', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' );
+    //wp_enqueue_style( 'bootstrap-4', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' );
     //main style
     wp_enqueue_style( 'style', plugin_dir_url( __FILE__ ) . 'css/contacts.css', array(), time() , 'all' ); 
 }
-add_action('wp_enqueue_scripts', 'contacts_plugin_enqueue_styles');
+add_action('admin_enqueue_scripts', 'contacts_plugin_enqueue_styles');
 
 //scripts
 function contacts_script_footer(){
@@ -28,7 +28,7 @@ function contacts_script_footer(){
 	wp_enqueue_script( 'pooperjs', 'https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js' );
 
     //main js file
-    wp_enqueue_script('vueapp', plugin_dir_url( __FILE__ ) . 'js/main.js', 'vue' , true );
+    wp_enqueue_script('main-js', plugin_dir_url( __FILE__ ) . 'js/main.js', array(), rand(1, 1000) , true );
 
     //ajax
 	wp_register_script( 'ajaxHandle', plugin_dir_url( __FILE__ ) . 'js/myajax.js', array(), rand(1, 1000), true  );
@@ -36,7 +36,7 @@ function contacts_script_footer(){
 	wp_localize_script( 'ajaxHandle', 'ajax_object', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 } 
 
-add_action('wp_footer', 'contacts_script_footer');
+add_action('admin_enqueue_scripts', 'contacts_script_footer');
 
 
 /*======================
@@ -122,3 +122,24 @@ function admin_list_person_page() {
 
 // Hook for adding admin menus
 add_action('admin_menu', 'contact_manager_plugin_menu');
+
+/*=========================
+===ADD/EDIT PERSONS PAGE===
+==========================*/
+function contact_manager_submenu() {
+    add_submenu_page(
+        'contact_manager',
+        'Add/Edit Person',
+        'Add/Edit Person',
+        'manage_options',
+        'add_edit_person',
+        'admin_add_edit_person_page'
+    );
+}
+
+function admin_add_edit_person_page() {
+    include(plugin_dir_path(__FILE__) . 'admin/admin-add-edit-person.php');
+}
+
+// Hook for adding submenu
+add_action('admin_menu', 'contact_manager_submenu');
