@@ -143,3 +143,24 @@ function admin_add_edit_person_page() {
 
 // Hook for adding submenu
 add_action('admin_menu', 'contact_manager_submenu');
+
+/*=========================
+===ADD/EDIT CONTACTS PAGE===
+==========================*/
+function contact_manager_contact_submenu() {
+    add_submenu_page(
+        'contact_manager',
+        'Add/Edit Contact',
+        'Add/Edit Contact',
+        'manage_options',
+        'add_edit_contact',
+        'admin_add_edit_contact_page'
+    );
+}
+
+function admin_add_edit_contact_page() {
+    include(plugin_dir_path(__FILE__) . 'admin/admin-add-edit-contact.php');
+}
+
+// Hook for adding submenu
+add_action('admin_menu', 'contact_manager_contact_submenu');

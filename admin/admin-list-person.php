@@ -30,7 +30,7 @@
                         |
                         <a href="<?php echo admin_url('admin.php?page=delete_person&id=' . $person->id); ?>">Delete</a>
                         |
-                        <a href="<?php echo admin_url('admin.php?page=add_contact&id=' . $person->id); ?>">Add Contact</a>
+                        <a href="<?php echo admin_url('admin.php?page=add_edit_contact&id=' . $person->id); ?>">Add Contact</a>
                     </td>
                 </tr>
             <?php } ?>

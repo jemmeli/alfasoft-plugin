@@ -14,7 +14,6 @@
         $email = sanitize_email($_POST['email']);
 
         if ($person_id) {
-            //die("1");
             // Update existing person
             $wpdb->update(
                 "{$wpdb->prefix}person",
@@ -25,7 +24,6 @@
             );
 
         } else {
-            //die("2");
             // Insert new person
             $wpdb->insert(
                 "{$wpdb->prefix}person",
