@@ -1,3 +1,7 @@
 #adminmenu a[href="admin.php?page=add_edit_contact"] { 
     display: none;
 }
+
+#adminmenu a[href="admin.php?page=delete_person"] { 
+    display: none;
+}
