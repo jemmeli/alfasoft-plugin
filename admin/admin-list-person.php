@@ -1,6 +1,6 @@
 <div class="wrap">
     <h1 class="wp-heading-inline">person List (Private)</h1>
-    <p><a href="<?php echo admin_url('admin.php?page=add_edit_person'); ?>" class="button button-primary">Add New Contact</a></p>
+    <p><a href="<?php echo admin_url('admin.php?page=add_edit_person'); ?>" class="button button-primary">Add New Person</a></p>
 
     <table class="wp-list-table widefat fixed striped">
         <thead>
