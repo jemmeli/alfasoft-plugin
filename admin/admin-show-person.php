@@ -9,7 +9,7 @@
     $person_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 
     // Fetch person information
-    $person = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}person WHERE id = $person_id");
+    $person = $wpdb->get_row("SELECT * FROM {$wpdb->prefix}person WHERE id = $person_id && deleted = 0");
 
     if ($person) {
         ?>
@@ -30,7 +30,7 @@
 
                 <?php
                 // Fetch contacts associated with the person
-                $contacts = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}contact WHERE person_id = $person_id");
+                $contacts = $wpdb->get_results("SELECT * FROM {$wpdb->prefix}contact WHERE person_id = $person_id && deleted = 0");
 
                 foreach ($contacts as $contact) {
                     ?>
@@ -41,7 +41,7 @@
                         <td>
                             <a href="<?php echo admin_url('admin.php?page=add_edit_contact&id=' . $person_id . '&contact_id=' . $contact->id); ?>">Edit</a>
                             |
-                            <form method="post" action="<?php echo admin_url('admin.php?page=delete_contact&id=' . $contact->id); ?>" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this contact?');">
+                            <form method="post" action="<?php echo admin_url('admin.php?page=delete_contact&contact_id=' . $contact->id . '&person_id=' . $person_id); ?>" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this contact?');">
                                 <button type="submit" style="background: none; border: none; color: #0073aa; cursor: pointer;">Delete</button>
                             </form>
                         </td>

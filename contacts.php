@@ -188,9 +188,9 @@ function admin_delete_person_page() {
 // Hook for adding submenu
 add_action('admin_menu', 'delete_manager_contact_submenu');
 
-/*=========================
-===DELETE PERSON===========
-==========================*/
+/*=====================================================
+===SHOW DETAIL PERSON AND THEIR SUB CONTACTS===========
+/*=====================================================*/
 function admin_show_person_submenu() {
     add_submenu_page(
         'contact_manager',
@@ -208,5 +208,27 @@ function admin_show_person_page() {
 
 // Hook for adding submenu
 add_action('admin_menu', 'admin_show_person_submenu');
+
+
+/*=========================
+===DELETE contact===========
+==========================*/
+function delete_contact_submenu() {
+    add_submenu_page(
+        'contact_manager',
+        'DELETE contact',
+        'DELETE contact',
+        'manage_options',
+        'delete_contact',
+        'admin_delete_contact_page'
+    );
+}
+
+function admin_delete_contact_page() {
+    include(plugin_dir_path(__FILE__) . 'admin/delete_contact.php');
+}
+
+// Hook for adding submenu
+add_action('admin_menu', 'delete_contact_submenu');
 
 

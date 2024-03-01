@@ -9,3 +9,7 @@
 #adminmenu a[href="admin.php?page=show_person"] { 
     display: none;
 }
+
+#adminmenu a[href="admin.php?page=delete_contact"] { 
+    display: none;
+}
