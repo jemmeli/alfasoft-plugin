@@ -63,6 +63,7 @@ function contacts_plugin_activate(){
 		name VARCHAR(255) NOT NULL,
 		email VARCHAR(255) NOT NULL,
         avatar_url VARCHAR(255),
+        deleted TINYINT NOT NULL DEFAULT 0,
         UNIQUE KEY email_unique (email),
 		PRIMARY KEY (id)
 	) $charset_collate;";
@@ -76,6 +77,7 @@ function contacts_plugin_activate(){
         person_id INT NOT NULL,
         country_code VARCHAR(10) NOT NULL,
         number VARCHAR(9) NOT NULL,
+        deleted TINYINT NOT NULL DEFAULT 0,
         PRIMARY KEY (id),
         UNIQUE KEY contact_unique (country_code, number)
         /*FOREIGN KEY (person_id) REFERENCES wp_person(id) ON DELETE CASCADE*/
